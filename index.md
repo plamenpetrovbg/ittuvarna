@@ -3,33 +3,101 @@ title: Home
 layout: home
 ---
 
-This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme. You can easily set the created site to be published on [GitHub Pages] – the [README] file explains how to do that, along with other details.
+This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme.
 
-If [Jekyll] is installed on your computer, you can also build and preview the created site *locally*. This lets you test changes before committing them, and avoids waiting for GitHub Pages.[^1] And you will be able to deploy your local build to a different platform than GitHub Pages.
+## Car Registration Servlet
 
-More specifically, the created site:
+Below is an example of a simple servlet that allows registering cars in a synchronized database. The servlet handles `POST` requests to add cars and responds with XML messages.
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages
+### Code Example
 
-Other than that, you're free to customize sites that you create with this template, however you like. You can easily change the versions of `just-the-docs` and Jekyll it uses, as well as adding further plugins.
+```java
+package Package;
 
-[Browse our documentation][Just the Docs] to learn more about how to use this theme.
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-To get started with creating a site, simply:
+class CarDatabase {
+    private static final List<Car> cars = Collections.synchronizedList(new ArrayList<>());
 
-1. click "[use this template]" to create a GitHub repository
-2. go to Settings > Pages > Build and deployment > Source, and select GitHub Actions
+    public static List<Car> getCars() {
+        synchronized (cars) {
+            return new ArrayList<>(cars);
+        }
+    }
 
-If you want to maintain your docs in the `docs` directory of an existing project repo, see [Hosting your docs from an existing project repo](https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md#hosting-your-docs-from-an-existing-project-repo) in the template README.
+    public static void addCar(Car car) {
+        synchronized (cars) {
+            cars.add(car);
+        }
+    }
+}
 
-----
+@WebServlet("/cars/add")
+public class CarRegistrationServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String regNumber = request.getParameter("regNumber");
+        String brand = request.getParameter("brand");
+        String model = request.getParameter("model");
+        String owner = request.getParameter("owner");
+        int year;
 
-[^1]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
+        try {
+            year = Integer.parseInt(request.getParameter("year"));
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid year format");
+            return;
+        }
+
+        CarDatabase.addCar(new Car(regNumber, brand, model, year, owner));
+
+        response.setContentType("application/xml");
+        PrintWriter out = response.getWriter();
+        out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        out.println("<message>Car registered successfully</message>");
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Use POST to add a car.");
+    }
+}
+
+class Car {
+    private String regNumber, brand, model, owner;
+    private int year;
+
+    public Car() {}
+
+    public Car(String regNumber, String brand, String model, int year, String owner) {
+        this.regNumber = regNumber;
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.owner = owner;
+    }
+
+    public String getRegNumber() { return regNumber; }
+    public int getYear() { return year; }
+
+    public String toXml() {
+        return "<car><regNumber>" + regNumber + "</regNumber>" +
+                "<brand>" + brand + "</brand>" +
+                "<model>" + model + "</model>" +
+                "<year>" + year + "</year>" +
+                "<owner>" + owner + "</owner></car>";
+    }
+}
+```
+
+For more details on using servlets and handling requests, refer to the [Jakarta Servlet Documentation](https://jakarta.ee/specifications/servlet/).
 
 [Just the Docs]: https://just-the-docs.github.io/just-the-docs/
-[GitHub Pages]: https://docs.github.com/en/pages
-[README]: https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md
-[Jekyll]: https://jekyllrb.com
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[use this template]: https://github.com/just-the-docs/just-the-docs-template/generate
+
