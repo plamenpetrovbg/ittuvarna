@@ -10,8 +10,7 @@ This is a *bare-minimum* template to create a Jekyll site that uses the [Just th
 Below is an example of a simple servlet that allows registering cars in a synchronized database. The servlet handles `POST` requests to add cars and responds with XML messages.
 
 ### Code Example
-
-```java
+`
 package Package;
 
 import java.io.IOException;
@@ -95,8 +94,7 @@ class Car {
                 "<owner>" + owner + "</owner></car>";
     }
 }
-```
-
+`
 For more details on using servlets and handling requests, refer to the [Jakarta Servlet Documentation](https://jakarta.ee/specifications/servlet/).
 
 [Just the Docs]: https://just-the-docs.github.io/just-the-docs/
