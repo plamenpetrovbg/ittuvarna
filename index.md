@@ -3,13 +3,10 @@ title: Създаване на сървлети
 layout: home
 ---
 
-This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme.
-
-## Car Registration Servlet
+## Cъздаване на сървлети
 
 Сървлетите са Java програми, които обслужват HTTP заявки и имплементират jakarta.servlet.Servlet интерфейса. Разработчиците на уеб приложения създават сървлети като наследяват jakarta.servlet.http.HttpServlet класа - абстрактен клас, който имплементира Servlet интерфейса и е специално проектиран за обслужване на HTTP заявки.
 
-### Code Example
 `
 package Package;
 
