@@ -1,6 +1,6 @@
 ---
 title: Упражнение 1
-layout: home
+layout: default
 ---
 
 ## Cъздаване на сървлети
