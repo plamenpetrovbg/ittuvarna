@@ -1,5 +1,5 @@
 ---
-title: Home
+title: Създаване на сървлети
 layout: home
 ---
 
@@ -7,7 +7,7 @@ This is a *bare-minimum* template to create a Jekyll site that uses the [Just th
 
 ## Car Registration Servlet
 
-Below is an example of a simple servlet that allows registering cars in a synchronized database. The servlet handles `POST` requests to add cars and responds with XML messages.
+Сървлетите са Java програми, които обслужват HTTP заявки и имплементират jakarta.servlet.Servlet интерфейса. Разработчиците на уеб приложения създават сървлети като наследяват jakarta.servlet.http.HttpServlet класа - абстрактен клас, който имплементира Servlet интерфейса и е специално проектиран за обслужване на HTTP заявки.
 
 ### Code Example
 `
