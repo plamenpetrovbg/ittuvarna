@@ -7,7 +7,7 @@ layout: home
 
 Сървлетите са Java програми, които обслужват HTTP заявки и имплементират jakarta.servlet.Servlet интерфейса. Разработчиците на уеб приложения създават сървлети като наследяват jakarta.servlet.http.HttpServlet класа - абстрактен клас, който имплементира Servlet интерфейса и е специално проектиран за обслужване на HTTP заявки.
 
-``
+`
 package Package;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 class CarDatabase {
-    private static final List<Car> cars = Collections.synchronizedList(new ArrayList<>());
+    private static final List<Car> cars = Collections.synchronizedList(new ArrayList<>());`
 
     public static List<Car> getCars() {
         synchronized (cars) {
