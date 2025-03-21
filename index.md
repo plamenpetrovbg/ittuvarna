@@ -7,7 +7,7 @@ layout: home
 
 Сървлетите са Java програми, които обслужват HTTP заявки и имплементират jakarta.servlet.Servlet интерфейса. Разработчиците на уеб приложения създават сървлети като наследяват jakarta.servlet.http.HttpServlet класа - абстрактен клас, който имплементира Servlet интерфейса и е специално проектиран за обслужване на HTTP заявки.
 
-`
+```js
 package Package;
 
 import java.io.IOException;
@@ -91,8 +91,5 @@ class Car {
                 "<owner>" + owner + "</owner></car>";
     }
 }
-``
-For more details on using servlets and handling requests, refer to the [Jakarta Servlet Documentation](https://jakarta.ee/specifications/servlet/).
-
-[Just the Docs]: https://just-the-docs.github.io/just-the-docs/
+```
 
